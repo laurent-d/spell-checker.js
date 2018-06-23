@@ -58,6 +58,22 @@ var SpellChecker = (function () {
                 src: path_1.resolve(__dirname, '../dictionaries/en/english.txt'),
                 charset: 'windows-1252'
             },
+            fr: {
+                src: path_1.resolve(__dirname, '../dictionaries/fr/fr.txt'),
+                charset: 'UTF-8'
+            },
+            fr2: {
+                src: path_1.resolve(__dirname, '../dictionaries/fr/fr2.txt'),
+                charset: 'UTF-8'
+            },
+            fr3: {
+                src: path_1.resolve(__dirname, '../dictionaries/fr/french.txt'),
+                charset: 'UTF-8'
+            },
+            web: {
+                src: path_1.resolve(__dirname, '../dictionaries/web/web.txt'),
+                charset: 'UTF-8'
+            },
         };
     }
     SpellChecker.prototype.load = function (inputOrProps, charsetOption) {
@@ -141,7 +157,8 @@ var SpellChecker = (function () {
         if (wordProp == null || wordProp === '' || !isNaN(Number(wordProp))) {
             return;
         }
-        var word = wordProp.replace(/^#/, '');
+
+        var word = wordProp.replace(/^#/, '')
         if (this.BUFFER.WORDS.has(word)) {
             return true;
         }
