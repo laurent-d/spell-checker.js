@@ -1,14 +1,24 @@
 Afghanistan
+Afghānistān
+Afrique
 Afrique du Sud
 Albanie
 Algérie
 Allemagne
+Amérique
+Amérique du Sud
+Amérique du Nord
+Europe
+Asie
+Océanie
+Afrique du nord
 Andorre
 Angola
 Anguilla
 Antarctique
 Antigua-et-Barbuda
 Arabie saoudite
+Arabie
 Argentine
 Arménie
 Aruba
@@ -25,8 +35,10 @@ Bénin
 Bermudes
 Bhoutan
 Biélorussie
+Birmanie
 Bolivie
 Bosnie-Herzégovine
+Bosnie
 Botswana
 Brésil
 Brunéi Darussalam
@@ -178,6 +190,7 @@ Ouzbékistan
 Pakistan
 Palaos
 Panama
+Panamá
 Papouasie-Nouvelle-Guinée
 Paraguay
 Pays-Bas
