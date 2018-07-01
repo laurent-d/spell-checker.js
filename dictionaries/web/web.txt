@@ -22,11 +22,6 @@ src
 pid
 d'
 l'
--------------------------------------------
-------------------------------------
---------------------------
----------------------
--
 plateforme
 checkin
 accompagnants
@@ -46,3 +41,10 @@ aujourd'hui
 Essec
 onsite
 Developpeur
+iPads
+iPad
+iPhones
+iPhone
+Chatbots
+Chatbot
+emailings
