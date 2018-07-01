@@ -74,6 +74,10 @@ var SpellChecker = (function () {
                 src: path_1.resolve(__dirname, '../dictionaries/web/web.txt'),
                 charset: 'UTF-8'
             },
+          countryfr: {
+                src: path_1.resolve(__dirname, '../dictionaries/fr/country.txt'),
+                charset: 'UTF-8'
+            },
         };
     }
     SpellChecker.prototype.load = function (inputOrProps, charsetOption) {
