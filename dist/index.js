@@ -14,8 +14,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -74,11 +74,11 @@ var SpellChecker = (function () {
                 src: path_1.resolve(__dirname, '../dictionaries/web/web.txt'),
                 charset: 'UTF-8'
             },
-          pays_fr: {
+            pays_fr: {
                 src: path_1.resolve(__dirname, '../dictionaries/fr/pays.txt'),
                 charset: 'UTF-8'
             },
-          prenoms_fr: {
+            prenoms_fr: {
                 src: path_1.resolve(__dirname, '../dictionaries/fr/prenoms.txt'),
                 charset: 'UTF-8'
             },
@@ -165,8 +165,7 @@ var SpellChecker = (function () {
         if (wordProp == null || wordProp === '' || !isNaN(Number(wordProp))) {
             return;
         }
-
-        var word = wordProp.replace(/^#/, '')
+        var word = wordProp.replace(/^#/, '');
         if (this.BUFFER.WORDS.has(word)) {
             return true;
         }
