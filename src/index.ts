@@ -349,6 +349,7 @@ class SpellChecker {
       fs.readFile(filePath, (error: Error, buffer: Buffer) => {
         if (error) {
           reject(error)
+          return
         }
 
         resolve(buffer)
