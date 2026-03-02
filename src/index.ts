@@ -22,12 +22,12 @@ declare interface FileResult {
 class SpellChecker {
   /** Object for storing list and the number of words */
   private BUFFER = {
-    WORDS: new Set(),
+    WORDS: new Set<string>(),
     SIZE:  0,
   }
 
   /** Default dictionaries */
-  private dictionaries = {
+  private dictionaries: { [key: string]: { src: string, charset: string } } = {
     ru: {
       src: resolve(__dirname, '../dictionaries/ru/russian.txt'),
       charset: 'windows-1251'
@@ -53,7 +53,7 @@ class SpellChecker {
   public load(inputOrProps: { input: string, charset?: string, async: true }): Promise<number>
   public load(inputOrProps: string, charsetOption?: string): number
   public load(inputOrProps: { input: string, charset?: string, async?: false }): number
-  public load(inputOrProps, charsetOption?) {
+  public load(inputOrProps: any, charsetOption?: any) {
     const options = this.parseParams(inputOrProps, charsetOption)
 
     // Synchronous file loading
@@ -76,13 +76,11 @@ class SpellChecker {
         this.BUFFER.WORDS
       )
 
-      return new Promise((resolve) => {
-        dictPromise.then(resp => {
-          this.BUFFER.WORDS = resp.words
-          this.BUFFER.SIZE += resp.size
+      return dictPromise.then(resp => {
+        this.BUFFER.WORDS = resp.words
+        this.BUFFER.SIZE += resp.size
 
-          resolve(resp.size)
-        })
+        return resp.size
       })
     }
   }
@@ -98,9 +96,8 @@ class SpellChecker {
    * @param {string} text
    */
   public check(text: string) {
-    if(this.BUFFER.SIZE === 0) {
-      console.error('ERROR! Dictionaries are not loaded')
-      return
+    if (this.BUFFER.SIZE === 0) {
+      throw new Error('Dictionaries are not loaded')
     }
 
     const regex = XRegExp('[^\\p{N}\\p{L}-_]', 'g')
@@ -109,7 +106,7 @@ class SpellChecker {
       .split(' ')
       .filter(item => item)
 
-    const outObj = {}
+    const outObj: { [key: string]: boolean } = {}
 
     for (let i = 0; i < textArr.length; i++) {
       const checked = this.checkWord(textArr[i])
@@ -118,7 +115,7 @@ class SpellChecker {
         : [checked]
 
       for (let j = 0; j < checkedList.length; j++) {
-        if (checkedList[j] == null) {
+        if (checkedList[j] === undefined || checkedList[j] === null) {
           outObj[textArr[i]] = true
         }
       }
@@ -166,7 +163,7 @@ class SpellChecker {
       return {
         input:   inputOrProps.input,
         charset: inputOrProps.charset || 'utf8',
-        async:   inputOrProps.async,
+        async:   inputOrProps.async || false,
       }
     }
 
@@ -181,9 +178,9 @@ class SpellChecker {
    * Word spell checking
    * @private
    */
-  private checkWord(wordProp: string, recblock?: boolean) {
+  private checkWord(wordProp: string, recblock?: boolean): boolean | undefined | any[] {
     // Just go away, if the word is not literal
-    if (wordProp == null || wordProp === '' || !isNaN(Number(wordProp))) {
+    if (wordProp === null || wordProp === undefined || wordProp === '' || !isNaN(Number(wordProp))) {
       return
     }
 
@@ -277,24 +274,13 @@ class SpellChecker {
     charset: string,
     words:   Set<string>
   ): FileResult {
-    if (this.dictionaries[input] != null) {
+    if (this.dictionaries[input] !== undefined) {
       charset = this.dictionaries[input].charset
       input   = this.dictionaries[input].src
     }
 
-    // Log error if file is not exists
     if (!fs.existsSync(input)) {
-      console.error(`ERROR! File "${input}" does not exist`)
-      return { words, size: 0 }
-    }
-
-    // Log error if file is not exists
-    if (!fs.existsSync(input)) {
-      console.error(`ERROR! File "${input}" does not exist`)
-      return {
-        words,
-        size: 0
-      }
+      throw new Error(`File "${input}" does not exist`)
     }
 
     // Synchronious loading
@@ -306,9 +292,9 @@ class SpellChecker {
    * Returns the Promise to receive an object containing a list of words and
    * their number
    * @private
-   * @param  {string} input   Название или путь библиотеки слов
-   * @param  {string} charset Кодировка
-   * @param  {Set}    words   Список слов
+   * @param  {string} input   The name or path of the word library
+   * @param  {string} charset Charset
+   * @param  {Set}    words   Word list
    * @return {Object}
    */
   private async readDictionaryAsync(
@@ -316,15 +302,13 @@ class SpellChecker {
     charset: string,
     words:   Set<string>
   ): Promise<FileResult> {
-    if (this.dictionaries[input] != null) {
+    if (this.dictionaries[input] !== undefined) {
       charset = this.dictionaries[input].charset
       input   = this.dictionaries[input].src
     }
 
-    // Log error if file is not exists
     if (!fs.existsSync(input)) {
-      console.error(`ERROR! File "${input}" does not exist`)
-      return { words, size: 0 }
+      throw new Error(`File "${input}" does not exist`)
     }
 
     // Asynchronious loading
@@ -349,6 +333,7 @@ class SpellChecker {
       fs.readFile(filePath, (error: Error, buffer: Buffer) => {
         if (error) {
           reject(error)
+          return
         }
 
         resolve(buffer)

@@ -5,8 +5,8 @@
     "module": "commonjs",
     "sourceMap": true,
     "moduleResolution": "node",
-    "noImplicitAny": false,
-    "noImplicitReturns": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
     "removeComments": true,
     "strictNullChecks": false,
     "lib": [
